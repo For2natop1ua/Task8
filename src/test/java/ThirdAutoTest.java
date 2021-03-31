@@ -12,7 +12,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.testng.reporters.Files.copyFile;
+import static org.apache.commons.io.FileUtils.copyFile;
+
 
 public class ThirdAutoTest {
     WebDriver driver;
@@ -20,6 +21,7 @@ public class ThirdAutoTest {
     By searchButtonBuy = By.xpath("//button[@aria-label = 'Купить']");
     By LinkOrder = new By.ByLinkText("Оформить заказ");
     By OrderListContacts = By.cssSelector(".checkout-form__content .checkout-block");
+    String searchText = "Монитор";
 
     @BeforeClass
     public void setUP() {
@@ -28,10 +30,11 @@ public class ThirdAutoTest {
         driver.manage().window().maximize();
         driver.get("https://rozetka.com.ua/");
     }
+
     @Test
-    public void test(){
+    public void test() {
         WebDriverWait wait = new WebDriverWait(driver, 4);
-        String searchText = "Монитор";
+
         WebElement searchElement = driver.findElement(By.xpath("//input[@name='search']"));
         searchElement.clear();
         searchElement.sendKeys(searchText);
@@ -49,9 +52,8 @@ public class ThirdAutoTest {
         driver.findElement(LinkOrder).click();
         wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(OrderListContacts, 4));
         driver.quit();
-
     }
-    //почемуто не работает метод скриншота
+
     @AfterMethod(alwaysRun = true)
     public void takeScreenshot(ITestResult result) {
         if (!result.isSuccess())
@@ -62,6 +64,5 @@ public class ThirdAutoTest {
                     IOException e) {
                 e.printStackTrace();
             }
-
     }
 }
